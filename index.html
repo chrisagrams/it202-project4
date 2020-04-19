@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Project 4</title>
+        <link href="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.css" rel="stylesheet">
+        <script src="https://unpkg.com/material-components-web@v4.0.0/dist/material-components-web.min.js"></script>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+        <style>
+            :root{
+                --mdc-theme-primary: #660000;
+            }
+            
+            .mdc-drawer .mdc-list-item--activated .mdc-list-item__graphic{
+                color: var(--mdc-theme-primary);
+            }
+            
+            .mdc-drawer .mdc-list-item--activated .mdc-list-item__text{
+                color: var(--mdc-theme-primary);
+            } 
+
+            body{
+                margin: 0;
+            }
+            main{
+                margin-left: 8px;
+            }
+
+            .view{
+                display: none;
+            }        
+        </style>
+    </head>
+    <body>
+        
+        <aside class = "mdc-drawer mdc-drawer--modal">
+            <div class = "mdc-drawer__content">
+                <nav class = "mdc-list">
+                     <a class = "mdc-list-item mdc-list-item--activated" href = "#Home" aria-current = "page">
+                        <i class="material-icons mdc-list-item__graphic" aria-hidden="true">home</i>
+                        <span class="mdc-list-item__text">Home</span>
+
+                    </a>
+                    <a class = "mdc-list-item mdc-list-item--activated" href = "#Screen1" aria-current = "page">
+                        <i class="material-icons mdc-list-item__graphic" aria-hidden="true">search</i>
+                        <span class="mdc-list-item__text">Search</span>
+
+                    </a>
+                    <a class = "mdc-list-item mdc-list-item--activated" href = "#Screen2" aria-current = "page">
+                        <i class="material-icons mdc-list-item__graphic" aria-hidden="true">table_chart</i>
+                        <span class="mdc-list-item__text">Table</span>
+                    </a>
+                    <a class = "mdc-list-item mdc-list-item--activated" href = "#Screen3" aria-current = "page">
+                        <i class="material-icons mdc-list-item__graphic" aria-hidden="true">show_chart</i>
+                        <span class="mdc-list-item__text">Chart</span>
+                    </a>
+                </nav>
+            </div>
+        </aside>
+        
+        <div class="mdc-drawer-scrim"></div>
+        
+        <header class = "mdc-top-app-bar">
+            <div class="mdc-top-app-bar__row">
+                <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+                    <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button">
+                        menu
+                    </button>
+                    <span class="mdc-top-app-bar__title">Project 4</span>
+                </section>
+            </div>
+        </header>
+        
+        <main class="mdc-top-app-bar--fixed-adjust">
+            <div id="Screen1" class="view">
+                <h1 class="mdc-typography --headline1">Search</h1>
+             <input id="countriesInput" list="countries">
+             <datalist id="countries">
+                
+             </datalist>
+            <button id="addToListButton" class="mdc-button foo-button mdc-button--raised mdc-ripple-upgraded">
+            <div class="mdc-button__ripple"></div>
+            <span class="mdc-button__label">Add to List</span>
+            </button>
+            <h2 class="mdc-typography --headline2">Selected Countries</h2>
+            <ul id="countriesList" class="mdc-list" role="listbox">
+                
+            </ul>
+            <button id="createChartsButton" class="mdc-button foo-button mdc-button--raised mdc-ripple-upgraded">
+            <div class="mdc-button__ripple"></div>
+            <span class="mdc-button__label">Create Charts</span>
+            </button>
+            <div class="mdc-snackbar">
+              <div class="mdc-snackbar__surface">
+                  <div class="mdc-snackbar__label" role="status" aria-live="polite">
+                  Country already in list.
+                  </div>
+                  <div class="mdc-snackbar__actions">
+                      <button type="button" class="mdc-button mdc-snackbar__action">
+                      <div class="mdc-button__ripple"></div>
+                      <span class="mdc-button__label">Ok</span>
+                      </button>
+                  </div>
+             </div>
+           </div>   
+                
+            </div>
+            
+            <div id="Screen2" class="view">Screen 2</div>
+            <div id="Screen3" class="view">Screen 3</div>
+            <div id="Home" class = "view">
+                <h1 class="mdc-typography --headline1">Home</h1>
+                <h3 class="mdc-typography --headline3">Covid-19 tracker with data from https://github.com/pomber/covid19</h3>
+            </div>
+        </main>
+        
+        
+    </body>
+    <script src="script.js"></script>
+</html>
