@@ -76,7 +76,7 @@
         <main class="mdc-top-app-bar--fixed-adjust">
             <div id="Screen1" class="view">
                 <h1 class="mdc-typography --headline1">Search</h1>
-             <input id="countriesInput" list="countries">
+             <input id="countriesInput" class="mdc-text-field__input" list="countries">
              <datalist id="countries">
                 
              </datalist>
@@ -98,7 +98,7 @@
             </button>
             <div class="mdc-snackbar">
               <div class="mdc-snackbar__surface">
-                  <div class="mdc-snackbar__label" role="status" aria-live="polite">
+                  <div id="snackbarText" class="mdc-snackbar__label" role="status" aria-live="polite">
                   Country already in list.
                   </div>
                   <div class="mdc-snackbar__actions">

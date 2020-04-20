@@ -20,7 +20,7 @@ document.querySelector(".mdc-top-app-bar__navigation-icon").addEventListener("cl
     drawer.open = true;
 });
 
-//
+
 let items = document.querySelectorAll("aside.mdc-drawer a.mdc-list-item");
 let firstPage = items[0].getAttribute("href");
 document.querySelector(firstPage).style.display = "block";
@@ -48,9 +48,15 @@ fetch("https://pomber.github.io/covid19/timeseries.json")
 });
 
 document.querySelector("#addToListButton").addEventListener("click", (e) => {
+    if(document.querySelector("#countriesInput").value == ""){
+        document.querySelector("#snackbarText").textContent = "You must enter a country first.";
+        snackbar.open();
+    }
+    else{
     let inList = false;
     for(let i = 0; i<selectedCountries.length; i++){
         if(selectedCountries[i] == document.querySelector("#countriesInput").value){
+            document.querySelector("#snackbarText").textContent = "Country is already in list.";
             snackbar.open();
             inList = true;
         }
@@ -58,16 +64,27 @@ document.querySelector("#addToListButton").addEventListener("click", (e) => {
     if(!inList){
     selectedCountries.push(document.querySelector("#countriesInput").value);
     let li = document.createElement("li");
-    li.class = "mdc-list-item";
+    li.className = "mdc-list-item";
     li.role="option";
     li.tabindex = "0";
     let span = document.createElement("span");
-    span.class = "mdc-list-item__text";
+    span.className = "mdc-list-item__text";
     span.textContent = document.querySelector("#countriesInput").value;
     li.append(span);
+    let removeIcon = document.createElement("span");
+    removeIcon.className = "mdc-list-item__meta material-icons";
+    removeIcon.textContent = "clear";
+    li.appendChild(removeIcon);
+        
+    li.addEventListener("click", (e) => {
+        selectedCountries.splice(selectedCountries[li.querySelector("span").textContent], 1);
+        li.remove();
+    });
+        
     document.querySelector("#countriesList").append(li);
     }
     document.querySelector("#countriesInput").value = "";
+    }
 });
 
 document.querySelector("#addAllButton").addEventListener("click", (e) => {
