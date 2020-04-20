@@ -5,10 +5,10 @@ let countriesDatalist = document.querySelector("#countries");
 let totalData;
 let MyTopAppBar = document.querySelector("header.mdc-top-app-bar");
 mdc.topAppBar.MDCTopAppBar.attachTo(MyTopAppBar);
-
+let allCountries = [];
 let MyDrawer = document.querySelector(".mdc-drawer");
 let drawer = mdc.drawer.MDCDrawer.attachTo(MyDrawer);
-const dataArray = [];
+let dataArray = [];
 const hide = () => {
     let views = document.querySelectorAll("div.view");
     for(let i = 0; i<views.length; i++){
@@ -42,6 +42,7 @@ fetch("https://pomber.github.io/covid19/timeseries.json")
         let option = document.createElement("option");
         option.value = Object.keys(data)[i];
         countriesDatalist.append(option);
+        allCountries.push(Object.keys(data)[i]);
     }
     console.log(countries);
 });
@@ -69,8 +70,24 @@ document.querySelector("#addToListButton").addEventListener("click", (e) => {
     document.querySelector("#countriesInput").value = "";
 });
 
+document.querySelector("#addAllButton").addEventListener("click", (e) => {
+    selectedCountries = [];
+    for(let i = 0; i<allCountries.length; i++){
+        selectedCountries.push(allCountries[i]);
+        let li = document.createElement("li");
+        li.class = "mdc-list-item";
+        li.role="option";
+        li.tabindex = "0";
+        let span = document.createElement("span");
+        span.class = "mdc-list-item__text";
+        span.textContent = allCountries[i];
+        li.append(span);
+        document.querySelector("#countriesList").append(li);
+    }
+});
+
 document.querySelector("#createChartsButton").addEventListener("click", (e) => {
-  
+   dataArray =[];
    let mainTable = document.querySelector("#mainTableHeader");
    let tableContent = document.querySelector("#mainTableContent");
    while (mainTable.lastElementChild) {
@@ -128,26 +145,43 @@ document.querySelector("#createChartsButton").addEventListener("click", (e) => {
    }
     console.log(dataArray);
     
+       
         hide();
-        let target = items[2].getAttribute("href");
+        while (document.querySelector("#Screen3").lastElementChild) {
+            document.querySelector("#Screen3").removeChild(document.querySelector("#Screen3").lastElementChild);
+        }
+        let target = items[3].getAttribute("href");
         document.querySelector(target).style.display = "block";
-    drawChart();
+        drawChart();
 });
 
-
+let screen3 = document.querySelector("#Screen3");
 google.charts.load('current', {'packages':['corechart']});
-
+       
       const drawChart = () => {
         let data = google.visualization.arrayToDataTable(dataArray);
 
         let options = {
           title: 'Deaths Over Time',
           curveType: 'function',
-          legend: { position: 'bottom' }
+          legend: { position: 'bottom' },
+          vAxis: {viewWindowMode: "explicit", viewWindow:{ min: 0 }}
         };
-
-        let chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+        let chartDiv = document.createElement("div");
+        let height = window.innerHeight-document.querySelector(".mdc-top-app-bar__row").clientHeight;
+        chartDiv.style = "width: 100%; height: "+height+"px;";
+          
+        let chart = new google.visualization.LineChart(chartDiv);
+        screen3.append(chartDiv);
 
         chart.draw(data, options);
       }
 
+window.addEventListener("resize", (event) =>{
+    if(screen3.style.display == "block"){
+    while (screen3.lastElementChild) {
+            screen3.removeChild(document.querySelector("#Screen3").lastElementChild);
+    }
+     drawChart();   
+    }
+});
