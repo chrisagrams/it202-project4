@@ -75,6 +75,9 @@ document.querySelector("#createChartsButton").addEventListener("click", (e) => {
    while (mainTable.lastElementChild) {
     mainTable.removeChild(mainTable.lastElementChild);
   }
+    while(tableContent.lastElementChild){
+        tableContent.removeChild(tableContent.lastElementChild);
+    }
    let mainColumnHeader = document.createElement("TH");
        mainColumnHeader.classList.add("mdc-data-table__header-cell");
        mainColumnHeader.role = "columnheader";
@@ -111,8 +114,11 @@ document.querySelector("#createChartsButton").addEventListener("click", (e) => {
           tableRow.append(deaths);
        }
        tableContent.append(tableRow);
-
-   } 
-
+   }
+    
+        hide();
+        let target = items[2].getAttribute("href");
+        document.querySelector(target).style.display = "block";
+  
 });
 
