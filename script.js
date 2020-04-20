@@ -8,7 +8,7 @@ mdc.topAppBar.MDCTopAppBar.attachTo(MyTopAppBar);
 
 let MyDrawer = document.querySelector(".mdc-drawer");
 let drawer = mdc.drawer.MDCDrawer.attachTo(MyDrawer);
-
+const dataArray = [];
 const hide = () => {
     let views = document.querySelectorAll("div.view");
     for(let i = 0; i<views.length; i++){
@@ -70,6 +70,7 @@ document.querySelector("#addToListButton").addEventListener("click", (e) => {
 });
 
 document.querySelector("#createChartsButton").addEventListener("click", (e) => {
+  
    let mainTable = document.querySelector("#mainTableHeader");
    let tableContent = document.querySelector("#mainTableContent");
    while (mainTable.lastElementChild) {
@@ -78,15 +79,18 @@ document.querySelector("#createChartsButton").addEventListener("click", (e) => {
     while(tableContent.lastElementChild){
         tableContent.removeChild(tableContent.lastElementChild);
     }
+     let headerArray = [];
    let mainColumnHeader = document.createElement("TH");
        mainColumnHeader.classList.add("mdc-data-table__header-cell");
        mainColumnHeader.role = "columnheader";
        mainColumnHeader.scope = "col";
        mainColumnHeader.textContent = "Date";
+       headerArray.push("Date");
        mainTable.append(mainColumnHeader);
     
-      
+     
    for(let i = 0; i<selectedCountries.length; i++){
+       
        console.log(totalData[selectedCountries[i]]);
        let columnHeader = document.createElement("TH");
        columnHeader.classList.add("mdc-data-table__header-cell");
@@ -94,9 +98,13 @@ document.querySelector("#createChartsButton").addEventListener("click", (e) => {
        columnHeader.scope = "col";
        columnHeader.textContent = selectedCountries[i];
        document.querySelector("#mainTableHeader").append(columnHeader);
+       headerArray.push(selectedCountries[i]);
    }
+    dataArray.push(headerArray);
+    console.log(dataArray);
     let currentCountry = totalData[selectedCountries[0]];
    for(let x = 0; x<currentCountry.length; x++){
+       let rowArray = [];
        let currentDate = currentCountry[x];
        let tableRow = document.createElement("TR");
        tableRow.classList.add("mdc-data-table__row");
@@ -104,6 +112,7 @@ document.querySelector("#createChartsButton").addEventListener("click", (e) => {
        let dateContent = document.createElement("TD");
        dateContent.classList.add("mdc-data-table__cell");
        dateContent.textContent = currentDate.date;
+       rowArray.push(currentDate.date);
        tableRow.append(dateContent);
            
        for(let y = 0; y<selectedCountries.length; y++){
@@ -111,14 +120,34 @@ document.querySelector("#createChartsButton").addEventListener("click", (e) => {
           deaths.classList.add("mdc-data-table__cell");
           deaths.classList.add("mdc-data-table__cell--numeric");
           deaths.textContent = totalData[selectedCountries[y]][x].deaths;
+          rowArray.push(totalData[selectedCountries[y]][x].deaths);
           tableRow.append(deaths);
        }
        tableContent.append(tableRow);
+       dataArray.push(rowArray);
    }
+    console.log(dataArray);
     
         hide();
         let target = items[2].getAttribute("href");
         document.querySelector(target).style.display = "block";
-  
+    drawChart();
 });
+
+
+google.charts.load('current', {'packages':['corechart']});
+
+      const drawChart = () => {
+        let data = google.visualization.arrayToDataTable(dataArray);
+
+        let options = {
+          title: 'Deaths Over Time',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        let chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+      }
 
